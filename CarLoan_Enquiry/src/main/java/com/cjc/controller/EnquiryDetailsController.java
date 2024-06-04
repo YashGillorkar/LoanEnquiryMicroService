@@ -9,12 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-<<<<<<< HEAD
 import com.cjc.dto.ResponseDto;
 import com.cjc.model.EnquiryDetails;
-=======
 
->>>>>>> branch 'main' of https://github.com/YashGillorkar/LoanEnquiryMicroService.git
 import com.cjc.serviceI.EnquiryDetailServiceI;
 
 @RestController
