@@ -21,7 +21,7 @@ public class EnquiryDetailsController {
 	
 	@PostMapping("/postEnquiry")
 	public ResponseEntity<ResponseDto> postEnquiry(@RequestBody EnquiryDetails enquiry){
-		enquiryDetailServiceI.saveEnquiry(enquiry);
+		//enquiryDetailServiceI.saveEnquiry(enquiry);
 		ResponseDto response = new ResponseDto("The Data has submitted. We will update you shortly",new Date());
 		return new ResponseEntity<ResponseDto>(response,HttpStatus.CREATED);
 	}
