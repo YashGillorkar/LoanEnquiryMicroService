@@ -11,7 +11,9 @@ public class EnquiryDetails {
 
 	@Id
 	private String enquiry_Id;
-	private String full_Name;
+	private String first_Name;
+	private String middle_Name;
+	private String last_Name;
 	private String applicant_EmailId;
 	private long contact_Number;
 	private long alternateContactNumber;
