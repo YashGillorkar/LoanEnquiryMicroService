@@ -13,13 +13,21 @@ public class PancardNumber_Validation {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter PAN card number:");
-        String pancardNo = scanner.nextLine();
 
-        if (isValidPAN(pancardNo)) {
-            System.out.println("PAN Card Number is valid.");
-        } else {
-            System.err.println("Invalid PAN Card Number: " + pancardNo);
+        while (true) {
+            System.out.println("Enter PAN card number (or type 'exit' to quit):");
+            String pancardNo = scanner.nextLine();
+
+            if (pancardNo.equalsIgnoreCase("exit")) {
+                System.out.println("Exiting program.");
+                break;
+            }
+
+            if (isValidPAN(pancardNo)) {
+                System.out.println("PAN Card Number is valid.");
+            } else {
+                System.out.println("Invalid PAN Card Number: " + pancardNo);
+            }
         }
 
         scanner.close();
