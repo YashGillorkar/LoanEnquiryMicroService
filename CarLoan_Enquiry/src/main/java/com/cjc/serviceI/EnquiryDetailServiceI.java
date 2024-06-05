@@ -9,5 +9,8 @@ public interface EnquiryDetailServiceI {
 	void saveEnquiry(EnquiryDetails enquiry);
 
 	List<EnquiryDetails> getAllEnquiries();
+	void deleteEnquiryData();
+
+	void deleteOne(String id);
 
 }

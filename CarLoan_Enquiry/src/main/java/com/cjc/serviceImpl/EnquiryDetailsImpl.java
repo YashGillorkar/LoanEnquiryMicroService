@@ -18,11 +18,23 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 	@Override
 	public void saveEnquiry(EnquiryDetails enquiry) {
 
-		
 	}
 
 	public List<EnquiryDetails> getAllEnquiries() {
 		return enquiryDetailsRepository.findAll();
+
+	}
+
+	@Override
+	public void deleteEnquiryData() {
+
+		enquiryDetailsRepository.deleteAll();
+
+	}
+
+	@Override
+	public void deleteOne(String id) {
+		enquiryDetailsRepository.deleteById(id);
 	}
 
 }
