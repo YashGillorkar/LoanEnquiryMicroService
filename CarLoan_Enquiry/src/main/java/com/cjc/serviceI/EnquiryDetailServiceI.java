@@ -13,6 +13,8 @@ public interface EnquiryDetailServiceI {
 	void deleteEnquiryData();
 
 	void deleteOne(String id);
+	
+	void updateByid(String enquiry_Id, EnquiryDetails ed);
 
 	EnquiryDetails getSingleData(String enquiry_Id);
 

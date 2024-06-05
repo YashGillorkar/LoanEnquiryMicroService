@@ -1,6 +1,8 @@
 package com.cjc.serviceImpl;
 
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -10,6 +12,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cjc.exception.IDNotPresentException;
 import com.cjc.exception.InvaildAgeException;
 import com.cjc.exception.InvalidAlternateMobileNumberException;
 import com.cjc.exception.InvalidEmailIdException;
@@ -100,6 +103,7 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 	}
 
 	@Override
+
 	public EnquiryDetails getSingleData(String enquiry_Id) {
 		Optional<EnquiryDetails> list=enquiryDetailsRepository.findById(enquiry_Id);
 		  if (list.isPresent()) 
@@ -112,5 +116,20 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 			  throw new InvalidIdException("Id Not Present");
 		  }
 		  }
+
+	public void updateByid(String enquiry_Id, EnquiryDetails ed) {
+	Optional<EnquiryDetails> checkIdPresent = enquiryDetailsRepository.findById(enquiry_Id);
+	
+	if(checkIdPresent.isPresent()) {
+		enquiryDetailsRepository.save(ed);
+	}else {
+		throw new IDNotPresentException("The Given ID is not present");
+	}
+		
+	}
+
+	
+
+	
 
 }
