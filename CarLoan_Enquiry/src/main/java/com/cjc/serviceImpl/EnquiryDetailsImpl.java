@@ -1,7 +1,10 @@
 package com.cjc.serviceImpl;
 
+
 import java.util.Random;
 import java.util.regex.Pattern;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,7 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 
 	@Autowired
 	EnquiryDetailsRepository enquiryDetailsRepository;
+
 	private static final String PAN_PATTERN = "^[A-Z]{5}[0-9]{4}[A-Z]$";
 	private static final String MOBILE_PATTERN = "[7-9][0-9]{9}";
 
@@ -73,6 +77,24 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 		
 		enquiryDetailsRepository.save(enquiry);
 
+
+	}
+
+	public List<EnquiryDetails> getAllEnquiries() {
+		return enquiryDetailsRepository.findAll();
+
+	}
+
+	@Override
+	public void deleteEnquiryData() {
+
+		enquiryDetailsRepository.deleteAll();
+
+	}
+
+	@Override
+	public void deleteOne(String id) {
+		enquiryDetailsRepository.deleteById(id);
 	}
 
 }
