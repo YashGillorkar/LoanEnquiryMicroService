@@ -18,6 +18,7 @@ import com.cjc.exception.InvalidLastNameException;
 import com.cjc.exception.InvalidMiddleNameException;
 import com.cjc.exception.InvalidMobileNumberException;
 import com.cjc.exception.InvalidPANnumberException;
+import com.cjc.model.CibilDetails;
 import com.cjc.model.EnquiryDetails;
 import com.cjc.repository.EnquiryDetailsRepository;
 import com.cjc.serviceI.EnquiryDetailServiceI;
@@ -33,6 +34,8 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 
 	Random ramdom = new Random();
 	String customId = "ENQ";
+
+	String cibilId = "CIBIL";
 
 	@Override
 	public void saveEnquiry(EnquiryDetails enquiry) {
@@ -74,7 +77,41 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 			throw new InvalidAlternateMobileNumberException("Please Enter a valid mobile number");
 		}
 
+		enquiry.setCibilDetails(addCibilData());
+
 		enquiryDetailsRepository.save(enquiry);
+
+		enquiryDetailsRepository.save(enquiry);
+	}
+
+	public CibilDetails addCibilData() {
+		CibilDetails cibilDetails = new CibilDetails();
+
+		int nextInt = ramdom.nextInt(500, 999);
+		String newId = cibilId + nextInt;
+		cibilDetails.setCibil_Id(newId);
+
+		int score = ramdom.nextInt(300, 900);
+		cibilDetails.setCibil_score(score);
+
+		if (score >= 750 && score <= 900) {
+			cibilDetails.setRemark("Excellent");
+		} else if (score >= 650 && score <= 749) {
+			cibilDetails.setRemark("Good");
+		} else if (score >= 500 && score <= 649) {
+			cibilDetails.setRemark("Average");
+		} else {
+			cibilDetails.setRemark("Poor");
+
+		}
+
+		if (score >= 550) {
+			cibilDetails.setApplicable(true);
+		} else {
+			cibilDetails.setApplicable(false);
+		}
+
+		return cibilDetails;
 
 	}
 
@@ -110,7 +147,7 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 
 	public void updateById(String enquiryId, EnquiryDetails ed) {
 		Optional<EnquiryDetails> optionalEnquiryDetails = enquiryDetailsRepository.findById(enquiryId);
-		
+
 		if (optionalEnquiryDetails.isPresent()) {
 			EnquiryDetails existingEnquiryDetails = optionalEnquiryDetails.get();
 
@@ -121,11 +158,22 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 			existingEnquiryDetails.setContact_Number(ed.getContact_Number());
 			existingEnquiryDetails.setAlternateContactNumber(ed.getAlternateContactNumber());
 			existingEnquiryDetails.setAge(ed.getAge());
-			
+
 			enquiryDetailsRepository.save(existingEnquiryDetails);
 		} else {
 			throw new IDNotPresentException("The given ID is not present");
 		}
+	}
+
+	public void updateByid(String enquiry_Id, EnquiryDetails ed) {
+		Optional<EnquiryDetails> checkIdPresent = enquiryDetailsRepository.findById(enquiry_Id);
+
+		if (checkIdPresent.isPresent()) {
+			enquiryDetailsRepository.save(ed);
+		} else {
+			throw new IDNotPresentException("The Given ID is not present");
+		}
+
 	}
 
 }
