@@ -1,19 +1,24 @@
 package com.cjc.serviceImpl;
 
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.regex.Pattern;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cjc.dto.ResponseDto;
+import com.cjc.exception.IDNotPresentException;
 import com.cjc.exception.InvaildAgeException;
 import com.cjc.exception.InvalidAlternateMobileNumberException;
 import com.cjc.exception.InvalidEmailIdException;
 import com.cjc.exception.InvalidFristNameException;
+import com.cjc.exception.InvalidIdException;
 import com.cjc.exception.InvalidLastNameException;
 import com.cjc.exception.InvalidMiddleNameException;
 import com.cjc.exception.InvalidMobileNumberException;
@@ -34,13 +39,14 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 	Random ramdom = new Random();
 	String customId = "ENQ";
 
-	int nextInt = ramdom.nextInt(100, 999);
-	String newId = customId + nextInt;
+	
 	
 
 	@Override
 	public void saveEnquiry(EnquiryDetails enquiry) {
 
+		int nextInt = ramdom.nextInt(100, 999);
+		String newId = customId + nextInt;
 		enquiry.setEnquiry_Id(newId);
 
 		if (!enquiry.getFirst_Name().matches("[a-zA-Z]+")) {
@@ -98,7 +104,35 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 		enquiryDetailsRepository.deleteById(id);
 	}
 
+
+	@Override
+
+	public EnquiryDetails getSingleData(String enquiry_Id) {
+		Optional<EnquiryDetails> list=enquiryDetailsRepository.findById(enquiry_Id);
+		  if (list.isPresent()) 
+	       {
+			  EnquiryDetails s= list.get();
+	    	return s; 
+			
+	       }
+		  else {
+			  throw new InvalidIdException("Id Not Present");
+		  }
+		  }
+
+	public void updateByid(String enquiry_Id, EnquiryDetails ed) {
+	Optional<EnquiryDetails> checkIdPresent = enquiryDetailsRepository.findById(enquiry_Id);
 	
+	if(checkIdPresent.isPresent()) {
+		enquiryDetailsRepository.save(ed);
+	}else {
+		throw new IDNotPresentException("The Given ID is not present");
+	}
+		
+	}
+
+	
+
 	
 
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,15 +38,28 @@ public class EnquiryDetailsController {
 	}
 	
 
+
+	@GetMapping("/getSingleData/{id}")
+	public ResponseEntity<EnquiryDetails> getSingleData(@PathVariable("id") String enquiry_Id) {
+		  EnquiryDetails ed=  enquiryDetailServiceI.getSingleData(enquiry_Id);
+		return new ResponseEntity<EnquiryDetails>(ed,HttpStatus.OK);
+		
+	}
+
 	@DeleteMapping("/deleteAllEnquiryData")
 	public ResponseEntity<ResponseDto> deleteAllData() {
-
 		enquiryDetailServiceI.deleteEnquiryData();
-
 		ResponseDto response = new ResponseDto(" All Enquiry Data Is Deleted ", new Date());
-
 		return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
-
+	}
+	
+	@PutMapping("/updateById/{id}")
+	public ResponseEntity<ResponseDto> updateData(@PathVariable("id") String enquiry_Id,@RequestBody EnquiryDetails ed)
+	{
+		enquiryDetailServiceI.updateByid(enquiry_Id,ed);
+		ResponseDto response = new ResponseDto("The Data has submitted. We will update you shortly", new Date());
+		return new ResponseEntity<ResponseDto>(response,HttpStatus.OK);
+		
 	}
 
 	@DeleteMapping("/deleteSingleEnquiry/{id}")
