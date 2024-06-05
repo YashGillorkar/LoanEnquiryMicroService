@@ -6,7 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.cjc.model.EnquiryDetails;
 
 @Repository
-public interface EnquiryDetailsRepository extends JpaRepository<EnquiryDetails,String> {
+public interface EnquiryDetailsRepository extends JpaRepository<EnquiryDetails,String> 
+{
 
 	
 }
