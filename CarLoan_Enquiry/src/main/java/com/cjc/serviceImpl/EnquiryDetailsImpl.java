@@ -99,8 +99,9 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 	}
 
 	@Override
-	public void updateByid(String id, EnquiryDetails ed) {
-	Optional<EnquiryDetails> checkIdPresent = enquiryDetailsRepository.findById(id);
+	public void updateByid(String enquiry_Id, EnquiryDetails ed) {
+	Optional<EnquiryDetails> checkIdPresent = enquiryDetailsRepository.findById(enquiry_Id);
+	
 	if(checkIdPresent.isPresent()) {
 		enquiryDetailsRepository.save(ed);
 	}else {

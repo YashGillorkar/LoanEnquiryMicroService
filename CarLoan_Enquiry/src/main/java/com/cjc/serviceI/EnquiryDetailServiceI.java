@@ -14,6 +14,6 @@ public interface EnquiryDetailServiceI {
 
 	void deleteOne(String id);
 	
-	void updateByid(String id, EnquiryDetails ed);
+	void updateByid(String enquiry_Id, EnquiryDetails ed);
 
 }
