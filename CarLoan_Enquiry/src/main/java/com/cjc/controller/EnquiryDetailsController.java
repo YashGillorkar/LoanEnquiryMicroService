@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,6 +46,15 @@ public class EnquiryDetailsController {
 
 		return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
 
+	}
+	
+	@PutMapping("/update/{id}")
+	public ResponseEntity<ResponseDto> updateData(@PathVariable("enquiry_Id") String id,@RequestBody EnquiryDetails ed)
+	{
+		enquiryDetailServiceI.updateByid(id,ed);
+		ResponseDto response = new ResponseDto("The Data has submitted. We will update you shortly", new Date());
+		return new ResponseEntity<ResponseDto>(response,HttpStatus.OK);
+		
 	}
 
 	@DeleteMapping("/deleteSingleEnquiry/{id}")

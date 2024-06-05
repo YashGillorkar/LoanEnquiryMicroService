@@ -1,14 +1,15 @@
 package com.cjc.serviceImpl;
 
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.regex.Pattern;
-
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cjc.exception.IDNotPresentException;
 import com.cjc.exception.InvaildAgeException;
 import com.cjc.exception.InvalidAlternateMobileNumberException;
 import com.cjc.exception.InvalidEmailIdException;
@@ -96,5 +97,20 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 	public void deleteOne(String id) {
 		enquiryDetailsRepository.deleteById(id);
 	}
+
+	@Override
+	public void updateByid(String id, EnquiryDetails ed) {
+	Optional<EnquiryDetails> checkIdPresent = enquiryDetailsRepository.findById(id);
+	if(checkIdPresent.isPresent()) {
+		enquiryDetailsRepository.save(ed);
+	}else {
+		throw new IDNotPresentException("The Given ID is not present");
+	}
+		
+	}
+
+	
+
+	
 
 }

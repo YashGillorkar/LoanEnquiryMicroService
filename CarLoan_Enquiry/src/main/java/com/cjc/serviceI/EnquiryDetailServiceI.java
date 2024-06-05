@@ -13,5 +13,7 @@ public interface EnquiryDetailServiceI {
 	void deleteEnquiryData();
 
 	void deleteOne(String id);
+	
+	void updateByid(String id, EnquiryDetails ed);
 
 }
