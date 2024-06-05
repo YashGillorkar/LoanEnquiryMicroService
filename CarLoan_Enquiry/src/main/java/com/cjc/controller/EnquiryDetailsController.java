@@ -48,7 +48,7 @@ public class EnquiryDetailsController {
 
 	}
 	
-	@PutMapping("/update/{id}")
+	@PutMapping("/updateById/{id}")
 	public ResponseEntity<ResponseDto> updateData(@PathVariable("id") String enquiry_Id,@RequestBody EnquiryDetails ed)
 	{
 		enquiryDetailServiceI.updateByid(enquiry_Id,ed);
