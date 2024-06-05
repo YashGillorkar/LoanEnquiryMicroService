@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.cjc.dto.ResponseDto;
 import com.cjc.exception.InvalidEmailIdException;
 import com.cjc.exception.InvalidFristNameException;
+import com.cjc.exception.InvalidIdException;
 import com.cjc.exception.InvalidLastNameException;
 import com.cjc.exception.InvalidMiddleNameException;
 
@@ -40,4 +41,11 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<ResponseDto>(rr,HttpStatus.BAD_REQUEST);
 	}
 
+
+
+	@ExceptionHandler(InvalidIdException.class)
+	public ResponseEntity<ResponseDto> incorretId(InvalidIdException e){
+		ResponseDto rr = new ResponseDto(e.getMessage(), new Date());
+		return new ResponseEntity<ResponseDto>(rr,HttpStatus.BAD_REQUEST);
+	}
 }

@@ -2,6 +2,7 @@ package com.cjc.serviceI;
 
 import java.util.List;
 
+import com.cjc.dto.ResponseDto;
 import com.cjc.model.EnquiryDetails;
 
 public interface EnquiryDetailServiceI {
@@ -15,5 +16,9 @@ public interface EnquiryDetailServiceI {
 	void deleteOne(String id);
 	
 	void updateByid(String enquiry_Id, EnquiryDetails ed);
+
+	EnquiryDetails getSingleData(String enquiry_Id);
+
+
 
 }
