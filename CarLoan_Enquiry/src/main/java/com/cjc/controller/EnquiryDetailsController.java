@@ -49,9 +49,9 @@ public class EnquiryDetailsController {
 	}
 	
 	@PutMapping("/updateById/{id}")
-	public ResponseEntity<ResponseDto> updateData(@PathVariable("id") String enquiry_Id,@RequestBody EnquiryDetails ed)
+	public ResponseEntity<ResponseDto> updateData(@PathVariable("enquiry_Id") String id,@RequestBody EnquiryDetails ed)
 	{
-		enquiryDetailServiceI.updateByid(enquiry_Id,ed);
+		enquiryDetailServiceI.updateByid(id,ed);
 		ResponseDto response = new ResponseDto("The Data has submitted. We will update you shortly", new Date());
 		return new ResponseEntity<ResponseDto>(response,HttpStatus.OK);
 		

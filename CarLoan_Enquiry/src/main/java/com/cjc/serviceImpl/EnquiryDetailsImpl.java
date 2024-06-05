@@ -102,6 +102,9 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 	public void updateByid(String enquiry_Id, EnquiryDetails ed) {
 	Optional<EnquiryDetails> checkIdPresent = enquiryDetailsRepository.findById(enquiry_Id);
 	
+	EnquiryDetails enquiryDetails = checkIdPresent.get();
+	
+	
 	if(checkIdPresent.isPresent()) {
 		enquiryDetailsRepository.save(ed);
 	}else {
