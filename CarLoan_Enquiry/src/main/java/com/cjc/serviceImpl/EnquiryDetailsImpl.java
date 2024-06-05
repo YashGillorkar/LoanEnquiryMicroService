@@ -1,6 +1,5 @@
 package com.cjc.serviceImpl;
 
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -23,6 +22,7 @@ import com.cjc.exception.InvalidLastNameException;
 import com.cjc.exception.InvalidMiddleNameException;
 import com.cjc.exception.InvalidMobileNumberException;
 import com.cjc.exception.InvalidPANnumberException;
+import com.cjc.model.CibilDetails;
 import com.cjc.model.EnquiryDetails;
 import com.cjc.repository.EnquiryDetailsRepository;
 import com.cjc.serviceI.EnquiryDetailServiceI;
@@ -38,9 +38,7 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 
 	Random ramdom = new Random();
 	String customId = "ENQ";
-
-	
-	
+	String cibilId = "CIBIL";
 
 	@Override
 	public void saveEnquiry(EnquiryDetails enquiry) {
@@ -81,9 +79,40 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 		if (!Pattern.matches(MOBILE_PATTERN, AlternatemobileNumberStr)) {
 			throw new InvalidAlternateMobileNumberException("Please Enter a valid mobile number");
 		}
-		
+		enquiry.setCibilDetails(addCibilData());
+
 		enquiryDetailsRepository.save(enquiry);
 
+	}
+
+	public CibilDetails addCibilData() {
+		CibilDetails cibilDetails = new CibilDetails();
+
+		int nextInt = ramdom.nextInt(500, 999);
+		String newId = cibilId + nextInt;
+		cibilDetails.setCibil_Id(newId);
+
+		int score = ramdom.nextInt(300, 900);
+		cibilDetails.setCibil_score(score);
+
+		if (score >= 750 && score <= 900) {
+			cibilDetails.setRemark("Excellent");
+		} else if (score >= 650 && score <= 749) {
+			cibilDetails.setRemark("Good");
+		} else if (score >= 500 && score <= 649) {
+			cibilDetails.setRemark("Average");
+		} else {
+			cibilDetails.setRemark("Poor");
+
+		}
+
+		if (score >= 550) {
+			cibilDetails.setApplicable(true);
+		} else {
+			cibilDetails.setApplicable(false);
+		}
+
+		return cibilDetails;
 
 	}
 
@@ -104,35 +133,28 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 		enquiryDetailsRepository.deleteById(id);
 	}
 
-
 	@Override
 
 	public EnquiryDetails getSingleData(String enquiry_Id) {
-		Optional<EnquiryDetails> list=enquiryDetailsRepository.findById(enquiry_Id);
-		  if (list.isPresent()) 
-	       {
-			  EnquiryDetails s= list.get();
-	    	return s; 
-			
-	       }
-		  else {
-			  throw new InvalidIdException("Id Not Present");
-		  }
-		  }
+		Optional<EnquiryDetails> list = enquiryDetailsRepository.findById(enquiry_Id);
+		if (list.isPresent()) {
+			EnquiryDetails s = list.get();
+			return s;
+
+		} else {
+			throw new InvalidIdException("Id Not Present");
+		}
+	}
 
 	public void updateByid(String enquiry_Id, EnquiryDetails ed) {
-	Optional<EnquiryDetails> checkIdPresent = enquiryDetailsRepository.findById(enquiry_Id);
-	
-	if(checkIdPresent.isPresent()) {
-		enquiryDetailsRepository.save(ed);
-	}else {
-		throw new IDNotPresentException("The Given ID is not present");
-	}
-		
-	}
+		Optional<EnquiryDetails> checkIdPresent = enquiryDetailsRepository.findById(enquiry_Id);
 
-	
+		if (checkIdPresent.isPresent()) {
+			enquiryDetailsRepository.save(ed);
+		} else {
+			throw new IDNotPresentException("The Given ID is not present");
+		}
 
-	
+	}
 
 }

@@ -1,5 +1,6 @@
 package com.cjc.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
@@ -20,7 +21,7 @@ public class EnquiryDetails {
 	private int age;
 	private String panCardNumber;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private CibilDetails cibilDetails;
 
 }
