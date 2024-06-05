@@ -14,4 +14,6 @@ public interface EnquiryDetailServiceI {
 
 	void deleteOne(String id);
 
+	EnquiryDetails getSingleData(String enquiry_Id);
+
 }

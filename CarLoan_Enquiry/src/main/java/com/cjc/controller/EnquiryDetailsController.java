@@ -35,6 +35,14 @@ public class EnquiryDetailsController {
 		List<EnquiryDetails> enquiries = enquiryDetailServiceI.getAllEnquiries();
 		return new ResponseEntity<List<EnquiryDetails>>(enquiries, HttpStatus.OK);
 	}
+	
+
+	@GetMapping("/getSingleData/{id}")
+	public ResponseEntity<EnquiryDetails> getSingleData(@PathVariable("id") String enquiry_Id) {
+		  EnquiryDetails ed=  enquiryDetailServiceI.getSingleData(enquiry_Id);
+		return new ResponseEntity<EnquiryDetails>(ed,HttpStatus.OK);
+		
+	}
 
 	@DeleteMapping("/deleteAllEnquiryData")
 	public ResponseEntity<ResponseDto> deleteAllData() {
