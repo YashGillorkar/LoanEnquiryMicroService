@@ -25,4 +25,10 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 
 	}
 
+	@Override
+	public void deleteOne(String id) {
+		enquiryDetailsRepository.deleteById(id);
+	}
+
+	
 }
