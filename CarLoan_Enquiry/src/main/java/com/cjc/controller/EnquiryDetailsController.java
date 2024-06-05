@@ -35,6 +35,7 @@ public class EnquiryDetailsController {
 		List<EnquiryDetails> enquiries = enquiryDetailServiceI.getAllEnquiries();
 		return new ResponseEntity<List<EnquiryDetails>>(enquiries, HttpStatus.OK);
 	}
+	
 
 	@DeleteMapping("/deleteAllEnquiryData")
 	public ResponseEntity<ResponseDto> deleteAllData() {

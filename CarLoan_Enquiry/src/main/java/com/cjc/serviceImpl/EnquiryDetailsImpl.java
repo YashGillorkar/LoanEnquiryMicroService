@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cjc.dto.ResponseDto;
 import com.cjc.exception.InvaildAgeException;
 import com.cjc.exception.InvalidAlternateMobileNumberException;
 import com.cjc.exception.InvalidEmailIdException;
@@ -96,5 +97,8 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 	public void deleteOne(String id) {
 		enquiryDetailsRepository.deleteById(id);
 	}
+
+	
+	
 
 }
