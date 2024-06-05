@@ -38,13 +38,9 @@ public class EnquiryDetailsController {
 
 	@DeleteMapping("/deleteAllEnquiryData")
 	public ResponseEntity<ResponseDto> deleteAllData() {
-
 		enquiryDetailServiceI.deleteEnquiryData();
-
 		ResponseDto response = new ResponseDto(" All Enquiry Data Is Deleted ", new Date());
-
 		return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
-
 	}
 
 	@DeleteMapping("/deleteSingleEnquiry/{id}")

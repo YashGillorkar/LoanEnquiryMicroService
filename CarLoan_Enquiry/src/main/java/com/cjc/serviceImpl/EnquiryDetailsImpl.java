@@ -33,13 +33,14 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 	Random ramdom = new Random();
 	String customId = "ENQ";
 
-	int nextInt = ramdom.nextInt(100, 999);
-	String newId = customId + nextInt;
+	
 	
 
 	@Override
 	public void saveEnquiry(EnquiryDetails enquiry) {
 
+		int nextInt = ramdom.nextInt(100, 999);
+		String newId = customId + nextInt;
 		enquiry.setEnquiry_Id(newId);
 
 		if (!enquiry.getFirst_Name().matches("[a-zA-Z]+")) {
