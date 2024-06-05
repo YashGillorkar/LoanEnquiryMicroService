@@ -1,18 +1,13 @@
 package com.cjc.serviceImpl;
 
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cjc.dto.ResponseDto;
 import com.cjc.exception.IDNotPresentException;
 import com.cjc.exception.InvaildAgeException;
 import com.cjc.exception.InvalidAlternateMobileNumberException;
@@ -38,9 +33,6 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 
 	Random ramdom = new Random();
 	String customId = "ENQ";
-
-	
-	
 
 	@Override
 	public void saveEnquiry(EnquiryDetails enquiry) {
@@ -81,9 +73,8 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 		if (!Pattern.matches(MOBILE_PATTERN, AlternatemobileNumberStr)) {
 			throw new InvalidAlternateMobileNumberException("Please Enter a valid mobile number");
 		}
-		
-		enquiryDetailsRepository.save(enquiry);
 
+		enquiryDetailsRepository.save(enquiry);
 
 	}
 
@@ -104,38 +95,37 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 		enquiryDetailsRepository.deleteById(id);
 	}
 
-
 	@Override
 
 	public EnquiryDetails getSingleData(String enquiry_Id) {
-		Optional<EnquiryDetails> list=enquiryDetailsRepository.findById(enquiry_Id);
-		  if (list.isPresent()) 
-	       {
-			  EnquiryDetails s= list.get();
-	    	return s; 
-			
-	       }
-		  else {
-			  throw new InvalidIdException("Id Not Present");
-		  }
-		  }
+		Optional<EnquiryDetails> list = enquiryDetailsRepository.findById(enquiry_Id);
+		if (list.isPresent()) {
+			EnquiryDetails s = list.get();
+			return s;
 
-	public void updateByid(String enquiry_Id, EnquiryDetails ed) {
-	Optional<EnquiryDetails> checkIdPresent = enquiryDetailsRepository.findById(enquiry_Id);
-	
-	EnquiryDetails enquiryDetails = checkIdPresent.get();
-	
-	
-	if(checkIdPresent.isPresent()) {
-		enquiryDetailsRepository.save(ed);
-	}else {
-		throw new IDNotPresentException("The Given ID is not present");
+		} else {
+			throw new InvalidIdException("Id Not Present");
+		}
 	}
+
+	public void updateById(String enquiryId, EnquiryDetails ed) {
+		Optional<EnquiryDetails> optionalEnquiryDetails = enquiryDetailsRepository.findById(enquiryId);
 		
+		if (optionalEnquiryDetails.isPresent()) {
+			EnquiryDetails existingEnquiryDetails = optionalEnquiryDetails.get();
+
+			existingEnquiryDetails.setFirst_Name(ed.getFirst_Name());
+			existingEnquiryDetails.setMiddle_Name(ed.getMiddle_Name());
+			existingEnquiryDetails.setLast_Name(ed.getLast_Name());
+			existingEnquiryDetails.setApplicant_EmailId(ed.getApplicant_EmailId());
+			existingEnquiryDetails.setContact_Number(ed.getContact_Number());
+			existingEnquiryDetails.setAlternateContactNumber(ed.getAlternateContactNumber());
+			existingEnquiryDetails.setAge(ed.getAge());
+			
+			enquiryDetailsRepository.save(existingEnquiryDetails);
+		} else {
+			throw new IDNotPresentException("The given ID is not present");
+		}
 	}
-
-	
-
-	
 
 }

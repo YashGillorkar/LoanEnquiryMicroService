@@ -36,14 +36,12 @@ public class EnquiryDetailsController {
 		List<EnquiryDetails> enquiries = enquiryDetailServiceI.getAllEnquiries();
 		return new ResponseEntity<List<EnquiryDetails>>(enquiries, HttpStatus.OK);
 	}
-	
-
 
 	@GetMapping("/getSingleData/{id}")
 	public ResponseEntity<EnquiryDetails> getSingleData(@PathVariable("id") String enquiry_Id) {
-		  EnquiryDetails ed=  enquiryDetailServiceI.getSingleData(enquiry_Id);
-		return new ResponseEntity<EnquiryDetails>(ed,HttpStatus.OK);
-		
+		EnquiryDetails ed = enquiryDetailServiceI.getSingleData(enquiry_Id);
+		return new ResponseEntity<EnquiryDetails>(ed, HttpStatus.OK);
+
 	}
 
 	@DeleteMapping("/deleteAllEnquiryData")
@@ -52,14 +50,13 @@ public class EnquiryDetailsController {
 		ResponseDto response = new ResponseDto(" All Enquiry Data Is Deleted ", new Date());
 		return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/updateById/{id}")
-	public ResponseEntity<ResponseDto> updateData(@PathVariable("enquiry_Id") String id,@RequestBody EnquiryDetails ed)
-	{
-		enquiryDetailServiceI.updateByid(id,ed);
-		ResponseDto response = new ResponseDto("The Data has submitted. We will update you shortly", new Date());
-		return new ResponseEntity<ResponseDto>(response,HttpStatus.OK);
-		
+	public ResponseEntity<ResponseDto> updateData(@PathVariable("id") String id,
+			@RequestBody EnquiryDetails enquiryDetails) {
+		enquiryDetailServiceI.updateById(id, enquiryDetails);
+		ResponseDto response = new ResponseDto("The data has been updated. We will notify you shortly", new Date());
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/deleteSingleEnquiry/{id}")
