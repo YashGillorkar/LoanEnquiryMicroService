@@ -13,21 +13,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.cjc.dto.ResponseDto;
+import com.cjc.model.CibilDetails;
 import com.cjc.model.EnquiryDetails;
 import com.cjc.serviceI.EnquiryDetailServiceI;
+
+import jakarta.websocket.SendResult;
 
 @RestController
 public class EnquiryDetailsController {
 
 	@Autowired
 	EnquiryDetailServiceI enquiryDetailServiceI;
+	
+	
 
 	@PostMapping("/postEnquiry")
 	public ResponseEntity<ResponseDto> postEnquiry(@RequestBody EnquiryDetails enquiry) {
+		
 		enquiryDetailServiceI.saveEnquiry(enquiry);
-		ResponseDto response = new ResponseDto("The Data has submitted. We will update you shortly", new Date());
+		ResponseDto response = new ResponseDto("The Data has submitted Successfully!", new Date());
 		return new ResponseEntity<ResponseDto>(response, HttpStatus.CREATED);
 	}
 

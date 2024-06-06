@@ -2,6 +2,7 @@ package com.cjc.serviceI;
 
 import java.util.List;
 
+import com.cjc.model.CibilDetails;
 import com.cjc.model.EnquiryDetails;
 
 public interface EnquiryDetailServiceI {
@@ -17,6 +18,7 @@ public interface EnquiryDetailServiceI {
 	EnquiryDetails getSingleData(String enquiry_Id);
 
 	void updateById(String id, EnquiryDetails enquiryDetails);
+	
 	
 
 

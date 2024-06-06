@@ -4,9 +4,20 @@ import jakarta.persistence.Entity;
 
 import jakarta.persistence.Id;
 import lombok.Data;
+<<<<<<< HEAD
+=======
+import lombok.Getter;
+import lombok.Setter;
+>>>>>>> branch 'main' of https://github.com/YashGillorkar/LoanEnquiryMicroService.git
 
+<<<<<<< HEAD
 
 @Data
+=======
+@Data
+@Setter
+@Getter
+>>>>>>> branch 'main' of https://github.com/YashGillorkar/LoanEnquiryMicroService.git
 @Entity
 public class CibilDetails  {
 	

@@ -6,7 +6,11 @@ import java.util.Random;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.cjc.exception.IDNotPresentException;
 import com.cjc.exception.InvaildAgeException;
@@ -28,6 +32,14 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 
 	@Autowired
 	EnquiryDetailsRepository enquiryDetailsRepository;
+	
+	@Autowired RestTemplate rt;
+
+	@Autowired 
+	private JavaMailSender sender;
+	
+	@Value("${spring.mail.username}")
+	private static String from_email;
 
 	private static final String PAN_PATTERN = "^[A-Z]{5}[0-9]{4}[A-Z]$";
 	private static final String MOBILE_PATTERN = "[7-9][0-9]{9}";
@@ -35,11 +47,13 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 	Random ramdom = new Random();
 	String customId = "ENQ";
 
-	String cibilId = "CIBIL";
 
 	@Override
 	public void saveEnquiry(EnquiryDetails enquiry) {
-
+		
+		String url= "http://localhost:2222/sendCibilDetails";
+		CibilDetails cd =  rt.getForObject(url, CibilDetails.class);
+		
 		int nextInt = ramdom.nextInt(100, 999);
 		String newId = customId + nextInt;
 		enquiry.setEnquiry_Id(newId);
@@ -56,6 +70,9 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 
 		if (!(enquiry.getApplicant_EmailId().endsWith("@gmail.com"))) {
 			throw new InvalidEmailIdException("Email id should not contain space and should ends with @gmail.com");
+		}else {
+			sendCibilReport(enquiry , cd);
+
 		}
 
 		int age = enquiry.getAge();
@@ -77,43 +94,12 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 			throw new InvalidAlternateMobileNumberException("Please Enter a valid mobile number");
 		}
 
-		enquiry.setCibilDetails(addCibilData());
-
-		enquiryDetailsRepository.save(enquiry);
+		enquiry.setCibilDetails(cd);
 
 		enquiryDetailsRepository.save(enquiry);
 	}
 
-	public CibilDetails addCibilData() {
-		CibilDetails cibilDetails = new CibilDetails();
-
-		int nextInt = ramdom.nextInt(500, 999);
-		String newId = cibilId + nextInt;
-		cibilDetails.setCibil_Id(newId);
-
-		int score = ramdom.nextInt(300, 900);
-		cibilDetails.setCibil_score(score);
-
-		if (score >= 750 && score <= 900) {
-			cibilDetails.setRemark("Excellent");
-		} else if (score >= 650 && score <= 749) {
-			cibilDetails.setRemark("Good");
-		} else if (score >= 500 && score <= 649) {
-			cibilDetails.setRemark("Average");
-		} else {
-			cibilDetails.setRemark("Poor");
-
-		}
-
-		if (score >= 550) {
-			cibilDetails.setApplicable(true);
-		} else {
-			cibilDetails.setApplicable(false);
-		}
-
-		return cibilDetails;
-
-	}
+	
 
 	public List<EnquiryDetails> getAllEnquiries() {
 		return enquiryDetailsRepository.findAll();
@@ -219,5 +205,45 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 	 * 
 	 * }
 	 */
+
+	
+
+	public void sendCibilReport(EnquiryDetails enquiry,CibilDetails cd) {
+		
+		SimpleMailMessage simpleMail=new SimpleMailMessage();
+		simpleMail.setTo(enquiry.getApplicant_EmailId());
+		simpleMail.setFrom(from_email);
+		simpleMail.setSubject("Regarding your CIBIL Application");
+		if(cd.getCibil_score()>= 550) {
+		simpleMail.setText("\r\n"
+				+ "We are delighted to inform you that your car loan enquiry has been successfully processed, and you are eligible for the loan!\r\n"
+				+ "\r\n"
+				+ "Enquiry ID: "+enquiry.getEnquiry_Id()+"\r\n"
+				+ "Cibil Score: "+cd.getCibil_score()+"\r\n"
+				+ "\r\n"
+				+ "After a thorough review of your application, we are pleased to inform you that your credit profile meets our eligibility criteria, and you have been approved for the car loan. Congratulations on this significant milestone!\r\n"
+				+ "\r\n"
+				+ "\r\n"
+				+ "Please feel free to reach out to us if you have any questions or need further clarification regarding the loan terms and conditions. We are here to ensure a smooth and seamless experience for you.\r\n"
+				+ "\r\n"
+				+ "Once again, congratulations on your loan approval! We look forward to assisting you in driving home your dream car.\r\n"
+				+ "Best Regards.");
+		}else {
+			simpleMail.setText("\r\n"
+					+ "We are delighted to inform you that your car loan enquiry has been successfully processed, and you are eligible for the loan!\r\n"
+					+ "\r\n"
+					+ "Enquiry ID: "+enquiry.getEnquiry_Id()+"\r\n"
+					+ "Cibil Score: "+cd.getCibil_score()+"\r\n"
+					+ "\r\n"
+					+ "We regret to inform you that, based on your current Cibil score, you are not eligible for a car loan at this time..\r\n"
+					+ "\r\n"
+					+ "\r\n"
+					+ "Please feel free to reach out to us if you have any questions or need further clarification regarding the loan terms and conditions. We are here to ensure a smooth and seamless experience for you.\r\n"
+					+ "\r\n"
+					+ "Thank you for considering our services. We hope to have the opportunity to assist you in the future.\r\n"
+					+ "Best Regards.");
+		}
+		sender.send(simpleMail);
+	}
 
 }
