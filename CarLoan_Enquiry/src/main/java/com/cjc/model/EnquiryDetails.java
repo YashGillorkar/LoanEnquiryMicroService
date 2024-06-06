@@ -21,15 +21,8 @@ public class EnquiryDetails {
 	private int age;
 	private String panCardNumber;
 	
-<<<<<<< HEAD
+
 	@OneToOne(cascade = CascadeType.ALL)
-=======
-<<<<<<< HEAD
-	@OneToOne()
-=======
-	@OneToOne(cascade = CascadeType.ALL)
->>>>>>> branch 'main' of https://github.com/YashGillorkar/LoanEnquiryMicroService.git
->>>>>>> branch 'main' of https://github.com/YashGillorkar/LoanEnquiryMicroService.git
 	private CibilDetails cibilDetails;
 
 }
