@@ -58,13 +58,7 @@ public class EnquiryDetailsController {
 		return new ResponseEntity<ResponseDto>(response, HttpStatus.OK);
 	}
 
-	@PutMapping("/updateById/{id}")
-	public ResponseEntity<ResponseDto> updateData(@PathVariable("id") String id,
-			@RequestBody EnquiryDetails enquiryDetails) {
-		enquiryDetailServiceI.updateById(id, enquiryDetails);
-		ResponseDto response = new ResponseDto("The data has been updated. We will notify you shortly", new Date());
-		return new ResponseEntity<>(response, HttpStatus.OK);
-	}
+	
 
 	@DeleteMapping("/deleteSingleEnquiry/{id}")
 	public ResponseEntity<ResponseDto> deleted(@PathVariable String id) {

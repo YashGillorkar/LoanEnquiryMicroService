@@ -32,12 +32,13 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 
 	@Autowired
 	EnquiryDetailsRepository enquiryDetailsRepository;
-	
-	@Autowired RestTemplate rt;
 
-	@Autowired 
+	@Autowired
+	RestTemplate rt;
+
+	@Autowired
 	private JavaMailSender sender;
-	
+
 	@Value("${spring.mail.username}")
 	private static String from_email;
 
@@ -47,13 +48,12 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 	Random ramdom = new Random();
 	String customId = "ENQ";
 
-
 	@Override
 	public void saveEnquiry(EnquiryDetails enquiry) {
-		
-		String url= "http://localhost:2222/sendCibilDetails";
-		CibilDetails cd =  rt.getForObject(url, CibilDetails.class);
-		
+
+		String url = "http://localhost:2222/sendCibilDetails";
+		CibilDetails cd = rt.getForObject(url, CibilDetails.class);
+
 		int nextInt = ramdom.nextInt(100, 999);
 		String newId = customId + nextInt;
 		enquiry.setEnquiry_Id(newId);
@@ -70,8 +70,8 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 
 		if (!(enquiry.getApplicant_EmailId().endsWith("@gmail.com"))) {
 			throw new InvalidEmailIdException("Email id should not contain space and should ends with @gmail.com");
-		}else {
-			sendCibilReport(enquiry , cd);
+		} else {
+			sendCibilReport(enquiry, cd);
 
 		}
 
@@ -98,8 +98,6 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 
 		enquiryDetailsRepository.save(enquiry);
 	}
-
-	
 
 	public List<EnquiryDetails> getAllEnquiries() {
 		return enquiryDetailsRepository.findAll();
@@ -131,113 +129,30 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 		}
 	}
 
-	public void updateById(String enquiryId, EnquiryDetails ed) {
+	public void sendCibilReport(EnquiryDetails enquiry, CibilDetails cd) {
 
-		Optional<EnquiryDetails> optionalEnquiryDetails = enquiryDetailsRepository.findById(enquiryId);
-
-		if (optionalEnquiryDetails.isPresent()) {
-
-			EnquiryDetails enquiryDetails = optionalEnquiryDetails.get();
-
-			// update field are Not null & Not Empty
-
-			if (ed.getFirst_Name() != null && !ed.getFirst_Name().isEmpty()) {
-				enquiryDetails.setFirst_Name(ed.getFirst_Name());
-			}
-
-			if (ed.getMiddle_Name() != null && !ed.getMiddle_Name().isEmpty()) {
-				enquiryDetails.setMiddle_Name(ed.getMiddle_Name());
-			}
-
-			if (ed.getLast_Name() != null && !ed.getLast_Name().isEmpty()) {
-				enquiryDetails.setLast_Name(ed.getLast_Name());
-			}
-
-			if (ed.getApplicant_EmailId() != null && !ed.getApplicant_EmailId().isEmpty()) {
-				enquiryDetails.setApplicant_EmailId(ed.getApplicant_EmailId());
-			}
-
-			/*
-			 * if (ed.getContact_Number() != null && !ed.getContact_Number().isEmpty()) {
-			 * existingEnquiryDetails.setContact_Number(ed.getContact_Number()); }
-			 * 
-			 * if (ed.getAlternateContactNumber() != null &&
-			 * !ed.getAlternateContactNumber().isEmpty()) {
-			 * existingEnquiryDetails.setAlternateContactNumber(ed.getAlternateContactNumber
-			 * ()); }
-			 * 
-			 * // Assuming age is an Integer and null is an acceptable "empty" state if
-			 * (ed.getAge() != null) { existingEnquiryDetails.setAge(ed.getAge()); }
-			 * 
-			 */
-			enquiryDetailsRepository.save(enquiryDetails);
-
-		} else {
-			throw new IDNotPresentException("The given ID is not present");
-		}
-	}
-
-	/*
-	 * public void updateById(String enquiryId, EnquiryDetails ed) {
-	 * Optional<EnquiryDetails> optionalEnquiryDetails =
-	 * enquiryDetailsRepository.findById(enquiryId);
-	 * 
-	 * if (optionalEnquiryDetails.isPresent()) { EnquiryDetails
-	 * existingEnquiryDetails = optionalEnquiryDetails.get();
-	 * 
-	 * existingEnquiryDetails.setFirst_Name(ed.getFirst_Name());
-	 * existingEnquiryDetails.setMiddle_Name(ed.getMiddle_Name());
-	 * existingEnquiryDetails.setLast_Name(ed.getLast_Name());
-	 * existingEnquiryDetails.setApplicant_EmailId(ed.getApplicant_EmailId());
-	 * existingEnquiryDetails.setContact_Number(ed.getContact_Number());
-	 * existingEnquiryDetails.setAlternateContactNumber(ed.getAlternateContactNumber
-	 * ()); existingEnquiryDetails.setAge(ed.getAge());
-	 * 
-	 * enquiryDetailsRepository.save(existingEnquiryDetails); } else { throw new
-	 * IDNotPresentException("The given ID is not present"); } }
-	 * 
-	 * public void updateByid(String enquiry_Id, EnquiryDetails ed) {
-	 * Optional<EnquiryDetails> checkIdPresent =
-	 * enquiryDetailsRepository.findById(enquiry_Id);
-	 * 
-	 * if (checkIdPresent.isPresent()) { enquiryDetailsRepository.save(ed); } else {
-	 * throw new IDNotPresentException("The Given ID is not present"); }
-	 * 
-	 * }
-	 */
-
-	
-
-	public void sendCibilReport(EnquiryDetails enquiry,CibilDetails cd) {
-		
-		SimpleMailMessage simpleMail=new SimpleMailMessage();
+		SimpleMailMessage simpleMail = new SimpleMailMessage();
 		simpleMail.setTo(enquiry.getApplicant_EmailId());
 		simpleMail.setFrom(from_email);
 		simpleMail.setSubject("Regarding your CIBIL Application");
-		if(cd.getCibil_score()>= 550) {
-		simpleMail.setText("\r\n"
-				+ "We are delighted to inform you that your car loan enquiry has been successfully processed, and you are eligible for the loan!\r\n"
-				+ "\r\n"
-				+ "Enquiry ID: "+enquiry.getEnquiry_Id()+"\r\n"
-				+ "Cibil Score: "+cd.getCibil_score()+"\r\n"
-				+ "\r\n"
-				+ "After a thorough review of your application, we are pleased to inform you that your credit profile meets our eligibility criteria, and you have been approved for the car loan. Congratulations on this significant milestone!\r\n"
-				+ "\r\n"
-				+ "\r\n"
-				+ "Please feel free to reach out to us if you have any questions or need further clarification regarding the loan terms and conditions. We are here to ensure a smooth and seamless experience for you.\r\n"
-				+ "\r\n"
-				+ "Once again, congratulations on your loan approval! We look forward to assisting you in driving home your dream car.\r\n"
-				+ "Best Regards.");
-		}else {
+		if (cd.getCibil_score() >= 550) {
 			simpleMail.setText("\r\n"
 					+ "We are delighted to inform you that your car loan enquiry has been successfully processed, and you are eligible for the loan!\r\n"
+					+ "\r\n" + "Enquiry ID: " + enquiry.getEnquiry_Id() + "\r\n" + "Cibil Score: " + cd.getCibil_score()
+					+ "\r\n" + "\r\n"
+					+ "After a thorough review of your application, we are pleased to inform you that your credit profile meets our eligibility criteria, and you have been approved for the car loan. Congratulations on this significant milestone!\r\n"
+					+ "\r\n" + "\r\n"
+					+ "Please feel free to reach out to us if you have any questions or need further clarification regarding the loan terms and conditions. We are here to ensure a smooth and seamless experience for you.\r\n"
 					+ "\r\n"
-					+ "Enquiry ID: "+enquiry.getEnquiry_Id()+"\r\n"
-					+ "Cibil Score: "+cd.getCibil_score()+"\r\n"
-					+ "\r\n"
+					+ "Once again, congratulations on your loan approval! We look forward to assisting you in driving home your dream car.\r\n"
+					+ "Best Regards.");
+		} else {
+			simpleMail.setText("\r\n"
+					+ "We are delighted to inform you that your car loan enquiry has been successfully processed, and you are eligible for the loan!\r\n"
+					+ "\r\n" + "Enquiry ID: " + enquiry.getEnquiry_Id() + "\r\n" + "Cibil Score: " + cd.getCibil_score()
+					+ "\r\n" + "\r\n"
 					+ "We regret to inform you that, based on your current Cibil score, you are not eligible for a car loan at this time..\r\n"
-					+ "\r\n"
-					+ "\r\n"
+					+ "\r\n" + "\r\n"
 					+ "Please feel free to reach out to us if you have any questions or need further clarification regarding the loan terms and conditions. We are here to ensure a smooth and seamless experience for you.\r\n"
 					+ "\r\n"
 					+ "Thank you for considering our services. We hope to have the opportunity to assist you in the future.\r\n"
