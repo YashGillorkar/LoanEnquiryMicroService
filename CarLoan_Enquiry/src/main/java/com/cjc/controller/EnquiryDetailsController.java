@@ -62,7 +62,7 @@ public class EnquiryDetailsController {
 	public ResponseEntity<ResponseDto> updateData(@PathVariable("id") String id,
 			@RequestBody EnquiryDetails enquiryDetails) {
 		enquiryDetailServiceI.updateById(id, enquiryDetails);
-		ResponseDto response = new ResponseDto("The data has been updated. We will notify you shortly", new Date());
+		ResponseDto response = new ResponseDto("The data has been updated successfully. We will notify you shortly", new Date());
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
