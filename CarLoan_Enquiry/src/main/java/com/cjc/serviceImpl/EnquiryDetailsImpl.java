@@ -170,6 +170,7 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 		simpleMail.setTo(enquiry.getApplicant_EmailId());
 		simpleMail.setFrom(from_email);
 		simpleMail.setSubject("Regarding your CIBIL Application");
+		if(cd.getCibil_score()>= 550) {
 		simpleMail.setText("\r\n"
 				+ "We are delighted to inform you that your car loan enquiry has been successfully processed, and you are eligible for the loan!\r\n"
 				+ "\r\n"
@@ -183,6 +184,21 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 				+ "\r\n"
 				+ "Once again, congratulations on your loan approval! We look forward to assisting you in driving home your dream car.\r\n"
 				+ "Best Regards.");
+		}else {
+			simpleMail.setText("\r\n"
+					+ "We are delighted to inform you that your car loan enquiry has been successfully processed, and you are eligible for the loan!\r\n"
+					+ "\r\n"
+					+ "Enquiry ID: "+enquiry.getEnquiry_Id()+"\r\n"
+					+ "Cibil Score: "+cd.getCibil_score()+"\r\n"
+					+ "\r\n"
+					+ "We regret to inform you that, based on your current Cibil score, you are not eligible for a car loan at this time..\r\n"
+					+ "\r\n"
+					+ "\r\n"
+					+ "Please feel free to reach out to us if you have any questions or need further clarification regarding the loan terms and conditions. We are here to ensure a smooth and seamless experience for you.\r\n"
+					+ "\r\n"
+					+ "Thank you for considering our services. We hope to have the opportunity to assist you in the future.\r\n"
+					+ "Best Regards.");
+		}
 		sender.send(simpleMail);
 	}
 
