@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.cjc.dto.ResponseDto;
+import com.cjc.model.CibilDetails;
 import com.cjc.model.EnquiryDetails;
 import com.cjc.serviceI.EnquiryDetailServiceI;
 
@@ -23,11 +25,16 @@ public class EnquiryDetailsController {
 
 	@Autowired
 	EnquiryDetailServiceI enquiryDetailServiceI;
+	
+	@Autowired RestTemplate rt;
+	
 
 	@PostMapping("/postEnquiry")
 	public ResponseEntity<ResponseDto> postEnquiry(@RequestBody EnquiryDetails enquiry) {
-		enquiryDetailServiceI.saveEnquiry(enquiry);
-		ResponseDto response = new ResponseDto("The Data has submitted. We will update you shortly", new Date());
+		String url= "http://riyaaa:2222/sendCibilDetails";
+		CibilDetails cd =  rt.getForObject(url, CibilDetails.class);
+		enquiryDetailServiceI.saveEnquiry(enquiry,cd);
+		ResponseDto response = new ResponseDto("The Data has submitted Successfully!", new Date());
 		return new ResponseEntity<ResponseDto>(response, HttpStatus.CREATED);
 	}
 
