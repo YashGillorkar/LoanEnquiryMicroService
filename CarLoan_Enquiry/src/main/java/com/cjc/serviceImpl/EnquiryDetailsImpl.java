@@ -146,34 +146,78 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 	}
 
 	public void updateById(String enquiryId, EnquiryDetails ed) {
+
 		Optional<EnquiryDetails> optionalEnquiryDetails = enquiryDetailsRepository.findById(enquiryId);
 
 		if (optionalEnquiryDetails.isPresent()) {
-			EnquiryDetails existingEnquiryDetails = optionalEnquiryDetails.get();
 
-			existingEnquiryDetails.setFirst_Name(ed.getFirst_Name());
-			existingEnquiryDetails.setMiddle_Name(ed.getMiddle_Name());
-			existingEnquiryDetails.setLast_Name(ed.getLast_Name());
-			existingEnquiryDetails.setApplicant_EmailId(ed.getApplicant_EmailId());
-			existingEnquiryDetails.setContact_Number(ed.getContact_Number());
-			existingEnquiryDetails.setAlternateContactNumber(ed.getAlternateContactNumber());
-			existingEnquiryDetails.setAge(ed.getAge());
+			EnquiryDetails enquiryDetails = optionalEnquiryDetails.get();
 
-			enquiryDetailsRepository.save(existingEnquiryDetails);
+			// update field are Not null & Not Empty
+
+			if (ed.getFirst_Name() != null && !ed.getFirst_Name().isEmpty()) {
+				enquiryDetails.setFirst_Name(ed.getFirst_Name());
+			}
+
+			if (ed.getMiddle_Name() != null && !ed.getMiddle_Name().isEmpty()) {
+				enquiryDetails.setMiddle_Name(ed.getMiddle_Name());
+			}
+
+			if (ed.getLast_Name() != null && !ed.getLast_Name().isEmpty()) {
+				enquiryDetails.setLast_Name(ed.getLast_Name());
+			}
+
+			if (ed.getApplicant_EmailId() != null && !ed.getApplicant_EmailId().isEmpty()) {
+				enquiryDetails.setApplicant_EmailId(ed.getApplicant_EmailId());
+			}
+
+			/*
+			 * if (ed.getContact_Number() != null && !ed.getContact_Number().isEmpty()) {
+			 * existingEnquiryDetails.setContact_Number(ed.getContact_Number()); }
+			 * 
+			 * if (ed.getAlternateContactNumber() != null &&
+			 * !ed.getAlternateContactNumber().isEmpty()) {
+			 * existingEnquiryDetails.setAlternateContactNumber(ed.getAlternateContactNumber
+			 * ()); }
+			 * 
+			 * // Assuming age is an Integer and null is an acceptable "empty" state if
+			 * (ed.getAge() != null) { existingEnquiryDetails.setAge(ed.getAge()); }
+			 * 
+			 */
+			enquiryDetailsRepository.save(enquiryDetails);
+
 		} else {
 			throw new IDNotPresentException("The given ID is not present");
 		}
 	}
 
-	public void updateByid(String enquiry_Id, EnquiryDetails ed) {
-		Optional<EnquiryDetails> checkIdPresent = enquiryDetailsRepository.findById(enquiry_Id);
-
-		if (checkIdPresent.isPresent()) {
-			enquiryDetailsRepository.save(ed);
-		} else {
-			throw new IDNotPresentException("The Given ID is not present");
-		}
-
-	}
+	/*
+	 * public void updateById(String enquiryId, EnquiryDetails ed) {
+	 * Optional<EnquiryDetails> optionalEnquiryDetails =
+	 * enquiryDetailsRepository.findById(enquiryId);
+	 * 
+	 * if (optionalEnquiryDetails.isPresent()) { EnquiryDetails
+	 * existingEnquiryDetails = optionalEnquiryDetails.get();
+	 * 
+	 * existingEnquiryDetails.setFirst_Name(ed.getFirst_Name());
+	 * existingEnquiryDetails.setMiddle_Name(ed.getMiddle_Name());
+	 * existingEnquiryDetails.setLast_Name(ed.getLast_Name());
+	 * existingEnquiryDetails.setApplicant_EmailId(ed.getApplicant_EmailId());
+	 * existingEnquiryDetails.setContact_Number(ed.getContact_Number());
+	 * existingEnquiryDetails.setAlternateContactNumber(ed.getAlternateContactNumber
+	 * ()); existingEnquiryDetails.setAge(ed.getAge());
+	 * 
+	 * enquiryDetailsRepository.save(existingEnquiryDetails); } else { throw new
+	 * IDNotPresentException("The given ID is not present"); } }
+	 * 
+	 * public void updateByid(String enquiry_Id, EnquiryDetails ed) {
+	 * Optional<EnquiryDetails> checkIdPresent =
+	 * enquiryDetailsRepository.findById(enquiry_Id);
+	 * 
+	 * if (checkIdPresent.isPresent()) { enquiryDetailsRepository.save(ed); } else {
+	 * throw new IDNotPresentException("The Given ID is not present"); }
+	 * 
+	 * }
+	 */
 
 }

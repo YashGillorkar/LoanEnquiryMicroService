@@ -65,4 +65,5 @@ public class EnquiryDetailsController {
 		ResponseDto respose = new ResponseDto(" ID deleted successfully: " + id, new Date());
 		return new ResponseEntity<ResponseDto>(respose, HttpStatus.OK);
 	}
+	
 }
