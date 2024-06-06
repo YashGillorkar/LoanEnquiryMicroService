@@ -131,38 +131,42 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 		}
 	}
 
-	public void updateById(String enquiryId, EnquiryDetails ed) {
-		Optional<EnquiryDetails> optionalEnquiryDetails = enquiryDetailsRepository.findById(enquiryId);
+	 public void updateById(String enquiryId, EnquiryDetails ed) {
+	        Optional<EnquiryDetails> optionalEnquiryDetails = enquiryDetailsRepository.findById(enquiryId);
 
-		if (optionalEnquiryDetails.isPresent()) {
-			EnquiryDetails existingEnquiryDetails = optionalEnquiryDetails.get();
+	        if (optionalEnquiryDetails.isPresent()) {
+	            EnquiryDetails existingEnquiryDetails = optionalEnquiryDetails.get();
 
-			existingEnquiryDetails.setFirst_Name(ed.getFirst_Name());
-			existingEnquiryDetails.setMiddle_Name(ed.getMiddle_Name());
-			existingEnquiryDetails.setLast_Name(ed.getLast_Name());
-			existingEnquiryDetails.setApplicant_EmailId(ed.getApplicant_EmailId());
-			existingEnquiryDetails.setContact_Number(ed.getContact_Number());
-			existingEnquiryDetails.setAlternateContactNumber(ed.getAlternateContactNumber());
-			existingEnquiryDetails.setAge(ed.getAge());
+	            if (ed.getFirst_Name() != null) {
+	                existingEnquiryDetails.setFirst_Name(ed.getFirst_Name());
+	            }
+	            if (ed.getMiddle_Name() != null) {
+	                existingEnquiryDetails.setMiddle_Name(ed.getMiddle_Name());
+	            }
+	            if (ed.getLast_Name() != null) {
+	                existingEnquiryDetails.setLast_Name(ed.getLast_Name());
+	            }
+	            if (ed.getApplicant_EmailId() != null) {
+	                existingEnquiryDetails.setApplicant_EmailId(ed.getApplicant_EmailId());
+	            }
+	            if (ed.getContact_Number() != 0) {  // Assuming 0 is not a valid contact number
+	                existingEnquiryDetails.setContact_Number(ed.getContact_Number());
+	            }
+	            if (ed.getAlternateContactNumber() != 0) {  // Assuming 0 is not a valid contact number
+	                existingEnquiryDetails.setAlternateContactNumber(ed.getAlternateContactNumber());
+	            }
+	            if (ed.getAge() != 0) {  // Assuming 0 is not a valid age
+	                existingEnquiryDetails.setAge(ed.getAge());
+	            }
+	            if (ed.getPanCardNumber() != null) {
+	                existingEnquiryDetails.setPanCardNumber(ed.getPanCardNumber());
+	            }
 
-			enquiryDetailsRepository.save(existingEnquiryDetails);
-		} else {
-			throw new IDNotPresentException("The given ID is not present");
-		}
-	}
-
-	public void updateByid(String enquiry_Id, EnquiryDetails ed) {
-		Optional<EnquiryDetails> checkIdPresent = enquiryDetailsRepository.findById(enquiry_Id);
-
-		if (checkIdPresent.isPresent()) {
-			enquiryDetailsRepository.save(ed);
-		} else {
-			throw new IDNotPresentException("The Given ID is not present");
-		}
-
-	}
-
-	
+	            enquiryDetailsRepository.save(existingEnquiryDetails);
+	        } else {
+	            throw new IDNotPresentException("The given ID is not present");
+	        }
+	    }
 
 	public void sendCibilReport(EnquiryDetails enquiry,CibilDetails cd) {
 		
