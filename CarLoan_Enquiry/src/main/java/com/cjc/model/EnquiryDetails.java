@@ -20,7 +20,7 @@ public class EnquiryDetails {
 	private int age;
 	private String panCardNumber;
 	
-	@OneToOne
+	@OneToOne()
 	private CibilDetails cibilDetails;
 
 }
