@@ -20,6 +20,7 @@ public class EnquiryDetails {
 	private long alternateContactNumber;
 	private int age;
 	private String panCardNumber;
+
 	
 
 	@OneToOne(cascade = CascadeType.ALL)

@@ -18,6 +18,7 @@ public interface EnquiryDetailServiceI {
 	EnquiryDetails getSingleData(String enquiry_Id);
 
 	void updateById(String id, EnquiryDetails enquiryDetails);
+
 	
 	
 

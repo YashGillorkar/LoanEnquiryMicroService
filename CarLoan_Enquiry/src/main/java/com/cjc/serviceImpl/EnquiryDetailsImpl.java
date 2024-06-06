@@ -166,6 +166,7 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 	}
 
 	public void sendCibilReport(EnquiryDetails enquiry, CibilDetails cd) {
+
 		SimpleMailMessage simpleMail = new SimpleMailMessage();
 		simpleMail.setTo(enquiry.getApplicant_EmailId());
 		simpleMail.setFrom(from_email);
@@ -194,6 +195,7 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 					+ "Best Regards.");
 		}
 		sender.send(simpleMail);
+
 	}
 
 }

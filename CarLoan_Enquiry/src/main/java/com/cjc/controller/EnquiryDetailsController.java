@@ -13,14 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import com.cjc.dto.ResponseDto;
-import com.cjc.model.CibilDetails;
 import com.cjc.model.EnquiryDetails;
 import com.cjc.serviceI.EnquiryDetailServiceI;
-
-import jakarta.websocket.SendResult;
 
 @RestController
 public class EnquiryDetailsController {
@@ -65,6 +61,7 @@ public class EnquiryDetailsController {
 		ResponseDto response = new ResponseDto("The data has been updated successfully. We will notify you shortly", new Date());
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+	
 
 	@DeleteMapping("/deleteSingleEnquiry/{id}")
 	public ResponseEntity<ResponseDto> deleted(@PathVariable String id) {
