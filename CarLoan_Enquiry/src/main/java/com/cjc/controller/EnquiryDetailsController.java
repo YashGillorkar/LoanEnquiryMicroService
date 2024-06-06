@@ -20,20 +20,20 @@ import com.cjc.model.CibilDetails;
 import com.cjc.model.EnquiryDetails;
 import com.cjc.serviceI.EnquiryDetailServiceI;
 
+import jakarta.websocket.SendResult;
+
 @RestController
 public class EnquiryDetailsController {
 
 	@Autowired
 	EnquiryDetailServiceI enquiryDetailServiceI;
 	
-	@Autowired RestTemplate rt;
 	
 
 	@PostMapping("/postEnquiry")
 	public ResponseEntity<ResponseDto> postEnquiry(@RequestBody EnquiryDetails enquiry) {
-		String url= "http://riyaaa:2222/sendCibilDetails";
-		CibilDetails cd =  rt.getForObject(url, CibilDetails.class);
-		enquiryDetailServiceI.saveEnquiry(enquiry,cd);
+		
+		enquiryDetailServiceI.saveEnquiry(enquiry);
 		ResponseDto response = new ResponseDto("The Data has submitted Successfully!", new Date());
 		return new ResponseEntity<ResponseDto>(response, HttpStatus.CREATED);
 	}
