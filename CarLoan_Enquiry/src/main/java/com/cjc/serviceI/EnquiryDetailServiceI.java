@@ -7,7 +7,7 @@ import com.cjc.model.EnquiryDetails;
 
 public interface EnquiryDetailServiceI {
 
-	void saveEnquiry(EnquiryDetails enquiry, CibilDetails cd);
+	void saveEnquiry(EnquiryDetails enquiry);
 
 	List<EnquiryDetails> getAllEnquiries();
 
@@ -18,6 +18,7 @@ public interface EnquiryDetailServiceI {
 	EnquiryDetails getSingleData(String enquiry_Id);
 
 	void updateById(String id, EnquiryDetails enquiryDetails);
+	
 	
 
 

@@ -3,8 +3,12 @@ package com.cjc.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
-@Data
+import lombok.Getter;
+import lombok.Setter;
 
+@Data
+@Setter
+@Getter
 @Entity
 public class CibilDetails {
 	@Id
