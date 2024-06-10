@@ -1,6 +1,7 @@
 package com.cjc.model;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
@@ -19,6 +20,8 @@ public class EnquiryDetails {
 	private long contact_Number;
 	private long alternateContactNumber;
 	private int age;
+	
+	@Column(unique=true)
 	private String panCardNumber;
 
 	

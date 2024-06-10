@@ -198,4 +198,21 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 
 	}
 
+	@Override
+		public CibilDetails getCibilDetails(String panCardNumber)
+		{
+		    List<EnquiryDetails> listenquiry = enquiryDetailsRepository.findAll();
+		    for (int i = 0; i < listenquiry.size(); i++) {
+		        EnquiryDetails enquiry = listenquiry.get(i);
+		        if (enquiry.getPanCardNumber().equals(panCardNumber)) {
+		            return enquiry.getCibilDetails();
+		        }
+		    }
+		    String url = "http://localhost:2222/sendCibilDetails";
+			CibilDetails cd = rt.getForObject(url, CibilDetails.class);
+			return cd;
+	   }
+
+	
+
 }

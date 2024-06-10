@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cjc.dto.ResponseDto;
+import com.cjc.model.CibilDetails;
 import com.cjc.model.EnquiryDetails;
 import com.cjc.serviceI.EnquiryDetailServiceI;
 
@@ -69,5 +70,15 @@ public class EnquiryDetailsController {
 		ResponseDto respose = new ResponseDto(" ID deleted successfully: " + id, new Date());
 		return new ResponseEntity<ResponseDto>(respose, HttpStatus.OK);
 	}
+	
+	@GetMapping("/getCibilByPAN/{panCardNumber}")
+	public ResponseEntity<CibilDetails> getCibilByPAN(@PathVariable String panCardNumber) {
+		CibilDetails cibilDetails = enquiryDetailServiceI.getCibilDetails(panCardNumber);
+		return new ResponseEntity<CibilDetails>(cibilDetails, HttpStatus.OK);
+
+	}
+	
+	
+	
 	
 }

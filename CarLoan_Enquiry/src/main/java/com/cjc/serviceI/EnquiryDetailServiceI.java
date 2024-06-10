@@ -19,6 +19,9 @@ public interface EnquiryDetailServiceI {
 
 	void updateById(String id, EnquiryDetails enquiryDetails);
 
+	CibilDetails getCibilDetails(String panCardNumber);
+
+	
 	
 	
 
