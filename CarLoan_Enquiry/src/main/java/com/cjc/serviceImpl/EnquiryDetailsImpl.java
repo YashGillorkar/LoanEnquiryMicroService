@@ -195,7 +195,6 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 					+ "Best Regards.");
 		}
 		sender.send(simpleMail);
-
 	}
 
 	@Override
