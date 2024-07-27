@@ -224,6 +224,7 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 		if (ops.isPresent()) {
 			EnquiryDetails object = ops.get();
 			object.setEnquiryStatus(enquiryStatus);
+			enquiryDetailsRepository.save(object);
 		} else {
 			throw new IDNotPresentException("The given ID is not present");
 		}

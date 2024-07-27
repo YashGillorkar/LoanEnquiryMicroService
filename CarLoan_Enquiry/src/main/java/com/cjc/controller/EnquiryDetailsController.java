@@ -37,8 +37,8 @@ public class EnquiryDetailsController {
 		return new ResponseEntity<ResponseDto>(response, HttpStatus.CREATED);
 	}
 	
-	@PutMapping("/UpdateStatus/{enquiry_Id}")
-	public ResponseEntity<ResponseDto> updateEnquiryStatus(@PathVariable String enquiry_Id, String enquiryStatus)
+	@PutMapping("/UpdateStatus/{enquiry_Id}/{enquiryStatus}")
+	public ResponseEntity<ResponseDto> updateEnquiryStatus(@PathVariable String enquiry_Id, @PathVariable String enquiryStatus)
 	{
 		enquiryDetailServiceI.updateStatus(enquiry_Id,enquiryStatus);
 		ResponseDto response = new ResponseDto(" Enquiry Data Updated Successfullty ", new Date());
