@@ -264,6 +264,7 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 		Optional<EnquiryDetails> ops = enquiryDetailsRepository.findById(enquiry_Id);
 		if (ops.isPresent()) {
 			EnquiryDetails object = ops.get();
+			System.out.println(object.toString());
 
 			SimpleMailMessage simpleMail = new SimpleMailMessage();
 			simpleMail.setTo(object.getApplicant_EmailId());
