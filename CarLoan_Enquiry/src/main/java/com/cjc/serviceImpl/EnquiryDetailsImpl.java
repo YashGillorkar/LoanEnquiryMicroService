@@ -93,6 +93,7 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 		if (!Pattern.matches(MOBILE_PATTERN, AlternatemobileNumberStr)) {
 			throw new InvalidAlternateMobileNumberException("Please Enter a valid mobile number");
 		}
+		enquiry.setEnquiryStatus("Register");
 
 		enquiry.setCibilDetails(cd);
 
@@ -198,20 +199,35 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 	}
 
 	@Override
-		public CibilDetails getCibilDetails(String panCardNumber)
-		{
-		    List<EnquiryDetails> listenquiry = enquiryDetailsRepository.findAll();
-		    for (int i = 0; i < listenquiry.size(); i++) {
-		        EnquiryDetails enquiry = listenquiry.get(i);
-		        if (enquiry.getPanCardNumber().equals(panCardNumber)) {
-		            return enquiry.getCibilDetails();
-		        }
-		    }
-		    String url = "http://localhost:2222/sendCibilDetails";
-			CibilDetails cd = rt.getForObject(url, CibilDetails.class);
-			return cd;
-	   }
+	public CibilDetails getCibilDetails(String panCardNumber) {
+		List<EnquiryDetails> listenquiry = enquiryDetailsRepository.findAll();
+		for (int i = 0; i < listenquiry.size(); i++) {
+			EnquiryDetails enquiry = listenquiry.get(i);
+			if (enquiry.getPanCardNumber().equals(panCardNumber)) {
+				return enquiry.getCibilDetails();
+			}
+		}
+		String url = "http://localhost:2222/sendCibilDetails";
+		CibilDetails cd = rt.getForObject(url, CibilDetails.class);
+		return cd;
+	}
 
-	
+	@Override
+	public List<EnquiryDetails> getAllDataByStatus(String enqs) {
+		return enquiryDetailsRepository.findAllByEnquiryStatus(enqs);
+	}
+
+	@Override
+	public void updateStatus(String enquiryId, String enquiryStatus) {
+
+		Optional<EnquiryDetails> ops = enquiryDetailsRepository.findById(enquiryId);
+		if (ops.isPresent()) {
+			EnquiryDetails object = ops.get();
+			object.setEnquiryStatus(enquiryStatus);
+		} else {
+			throw new IDNotPresentException("The given ID is not present");
+		}
+
+	}
 
 }

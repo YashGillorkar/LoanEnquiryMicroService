@@ -21,6 +21,10 @@ public interface EnquiryDetailServiceI {
 
 	CibilDetails getCibilDetails(String panCardNumber);
 
+	List<EnquiryDetails> getAllDataByStatus(String enqs);
+
+	void updateStatus(String enquiryId, String enquiryStatus);
+
 	
 	
 	
