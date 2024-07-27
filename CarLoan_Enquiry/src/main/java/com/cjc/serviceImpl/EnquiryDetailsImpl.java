@@ -70,9 +70,6 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 
 		if (!(enquiry.getApplicant_EmailId().endsWith("@gmail.com"))) {
 			throw new InvalidEmailIdException("Email id should not contain space and should ends with @gmail.com");
-		} else {
-			sendCibilReport(enquiry, cd);
-
 		}
 
 		int age = enquiry.getAge();
@@ -229,6 +226,67 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 			throw new IDNotPresentException("The given ID is not present");
 		}
 
+	}
+
+	@Override
+	public void loanEnquiryApproval(String enquiry_Id, String enquiryStatus) {
+
+		Optional<EnquiryDetails> ops = enquiryDetailsRepository.findById(enquiry_Id);
+		if (ops.isPresent()) {
+			EnquiryDetails object = ops.get();
+
+			SimpleMailMessage simpleMail = new SimpleMailMessage();
+			simpleMail.setTo(object.getApplicant_EmailId());
+			simpleMail.setFrom(from_email);
+			simpleMail.setSubject("Regarding your CIBIL Application");
+			CibilDetails cd = object.getCibilDetails();
+			if (cd.getCibil_score() >= 550) {
+				simpleMail.setText("\r\n"
+						+ "We are delighted to inform you that your car loan enquiry has been successfully processed, and you are eligible for the loan!\r\n"
+						+ "\r\n" + "Enquiry ID: " + object.getEnquiry_Id() + "\r\n" + "Cibil Score: "
+						+ cd.getCibil_score() + "\r\n" + "\r\n"
+						+ "After a thorough review of your application, we are pleased to inform you that your credit profile meets our eligibility criteria, and you have been approved for the car loan. Congratulations on this significant milestone!\r\n"
+						+ "\r\n" + "\r\n"
+						+ "Please feel free to reach out to us if you have any questions or need further clarification regarding the loan terms and conditions. We are here to ensure a smooth and seamless experience for you.\r\n"
+						+ "\r\n"
+						+ "Once again, congratulations on your loan approval! We look forward to assisting you in driving home your dream car.\r\n"
+						+ "Best Regards.");
+				sender.send(simpleMail);
+				object.setEnquiryStatus(enquiryStatus);
+
+			}
+		}
+	}
+
+	@Override
+	public void loanEnquiryRejected(String enquiry_Id, String enquiryStatus) {
+
+		Optional<EnquiryDetails> ops = enquiryDetailsRepository.findById(enquiry_Id);
+		if (ops.isPresent()) {
+			EnquiryDetails object = ops.get();
+
+			SimpleMailMessage simpleMail = new SimpleMailMessage();
+			simpleMail.setTo(object.getApplicant_EmailId());
+			simpleMail.setFrom(from_email);
+			simpleMail.setSubject("Regarding your CIBIL Application");
+			CibilDetails cd = object.getCibilDetails();
+			if (cd.getCibil_score() < 550) {
+				simpleMail.setText("\r\n"
+						+ "We are delighted to inform you that your car loan enquiry has been successfully processed, and you are eligible for the loan!\r\n"
+						+ "\r\n" + "Enquiry ID: " + object.getEnquiry_Id() + "\r\n" + "Cibil Score: "
+						+ cd.getCibil_score() + "\r\n" + "\r\n"
+						+ "We regret to inform you that, based on your current Cibil score, you are not eligible for a car loan at this time..\r\n"
+						+ "\r\n" + "\r\n"
+						+ "Please feel free to reach out to us if you have any questions or need further clarification regarding the loan terms and conditions. We are here to ensure a smooth and seamless experience for you.\r\n"
+						+ "\r\n"
+						+ "Thank you for considering our services. We hope to have the opportunity to assist you in the future.\r\n"
+						+ "Best Regards.");
+
+				sender.send(simpleMail);
+				object.setEnquiryStatus(enquiryStatus);
+
+			}
+		}
 	}
 
 }

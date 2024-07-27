@@ -95,6 +95,20 @@ public class EnquiryDetailsController {
 
 	}
 	
+	@GetMapping("/loanApproval/{enquiry_Id}/{enquiryStatus}")
+	public ResponseEntity<ResponseDto> loanEnquiryApproval(@PathVariable String enquiry_Id,@PathVariable String enquiryStatus)
+	{
+		enquiryDetailServiceI.loanEnquiryApproval(enquiry_Id,enquiryStatus);
+		ResponseDto response= new ResponseDto("Loan Approved", new Date());
+		return new ResponseEntity<ResponseDto>(response,HttpStatus.OK);
+	}
+	public ResponseEntity<ResponseDto>loanEnquiryRejected(@PathVariable String enquiry_Id,@PathVariable String enquiryStatus)
+	{
+		enquiryDetailServiceI.loanEnquiryRejected(enquiry_Id,enquiryStatus);
+		ResponseDto response= new ResponseDto("Loan Approved", new Date());
+
+		return new ResponseEntity<ResponseDto>(response,HttpStatus.BAD_REQUEST);
+	}
 	
 	
 	

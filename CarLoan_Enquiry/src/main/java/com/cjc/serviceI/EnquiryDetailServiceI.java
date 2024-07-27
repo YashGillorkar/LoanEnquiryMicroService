@@ -25,6 +25,10 @@ public interface EnquiryDetailServiceI {
 
 	void updateStatus(String enquiryId, String enquiryStatus);
 
+	void loanEnquiryApproval(String enquiry_Id, String enquiryStatus);
+
+	void loanEnquiryRejected(String enquiry_Id, String enquiryStatus);
+
 	
 	
 	
