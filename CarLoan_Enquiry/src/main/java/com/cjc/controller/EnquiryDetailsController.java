@@ -34,6 +34,21 @@ public class EnquiryDetailsController {
 		ResponseDto response = new ResponseDto("The Data has submitted Successfully!", new Date());
 		return new ResponseEntity<ResponseDto>(response, HttpStatus.CREATED);
 	}
+	
+	@PutMapping("/UpdateStatus/{enquiry_Id}")
+	public ResponseEntity<ResponseDto> updateEnquiryStatus(@PathVariable String enquiry_Id, String enquiryStatus)
+	{
+		enquiryDetailServiceI.updateStatus(enquiry_Id,enquiryStatus);
+		ResponseDto response = new ResponseDto(" Enquiry Data Updated Successfullty ", new Date());
+		return new ResponseEntity<ResponseDto>(response,HttpStatus.OK);
+	}
+	
+	@GetMapping("/getAlldataByStatus/{enquiry_status}")
+	public ResponseEntity<List<EnquiryDetails>> getAllEnquiryByStatus(@PathVariable("enquiry_status") String enqs )
+	{
+		List<EnquiryDetails> enqDetails= enquiryDetailServiceI.getAllDataByStatus(enqs);
+		return new ResponseEntity<List<EnquiryDetails>>(enqDetails,HttpStatus.OK);
+	}
 
 	@GetMapping("/getAllData")
 	public ResponseEntity<List<EnquiryDetails>> getAllEnquiries() {

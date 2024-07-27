@@ -20,6 +20,7 @@ public class EnquiryDetails {
 	private long contact_Number;
 	private long alternateContactNumber;
 	private int age;
+	private String enquiryStatus;
 	
 	@Column(unique=true)
 	private String panCardNumber;
