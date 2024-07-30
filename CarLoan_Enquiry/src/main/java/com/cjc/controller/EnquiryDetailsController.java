@@ -111,6 +111,12 @@ public class EnquiryDetailsController {
 		return new ResponseEntity<ResponseDto>(response,HttpStatus.BAD_REQUEST);
 	}
 	
+	@GetMapping("/getCibilById/{enquiry_Id}")
+	public ResponseEntity<CibilDetails> getCibilById(@PathVariable String enquiry_Id) {
+		CibilDetails cibilDetails = enquiryDetailServiceI.getCibilDetailsById(enquiry_Id);
+		return new ResponseEntity<CibilDetails>(cibilDetails, HttpStatus.OK);
+
+	}
 	
 	
 }

@@ -29,6 +29,8 @@ public interface EnquiryDetailServiceI {
 
 	void loanEnquiryRejected(String enquiry_Id, String enquiryStatus);
 
+	CibilDetails getCibilDetailsById(String enquiry_Id);
+
 	
 	
 	

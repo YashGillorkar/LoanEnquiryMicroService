@@ -234,7 +234,8 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 		Optional<EnquiryDetails> ops = enquiryDetailsRepository.findById(enquiry_Id);
 		if (ops.isPresent()) {
 			EnquiryDetails object = ops.get();
-
+			object.setEnquiryStatus(enquiryStatus);
+			enquiryDetailsRepository.save(object);
 			SimpleMailMessage simpleMail = new SimpleMailMessage();
 			simpleMail.setTo(object.getApplicant_EmailId());
 			simpleMail.setFrom(from_email);
@@ -252,7 +253,7 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 						+ "Once again, congratulations on your loan approval! We look forward to assisting you in driving home your dream car.\r\n"
 						+ "Best Regards.");
 				sender.send(simpleMail);
-				object.setEnquiryStatus(enquiryStatus);
+				
 
 			}
 		}
@@ -265,7 +266,8 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 		if (ops.isPresent()) {
 			EnquiryDetails object = ops.get();
 			System.out.println(object.toString());
-
+			object.setEnquiryStatus(enquiryStatus);
+			enquiryDetailsRepository.save(object);
 			SimpleMailMessage simpleMail = new SimpleMailMessage();
 			simpleMail.setTo(object.getApplicant_EmailId());
 			simpleMail.setFrom(from_email);
@@ -284,9 +286,20 @@ public class EnquiryDetailsImpl implements EnquiryDetailServiceI {
 						+ "Best Regards.");
 
 				sender.send(simpleMail);
-				object.setEnquiryStatus(enquiryStatus);
+				
 
 			}
+		}
+	}
+
+	@Override
+	public CibilDetails getCibilDetailsById(String enquiry_Id) {
+		Optional<EnquiryDetails> opt = enquiryDetailsRepository.findById(enquiry_Id);
+		if (opt.isPresent()) {
+			EnquiryDetails object = opt.get();
+			return object.getCibilDetails();
+		} else {
+			throw new IDNotPresentException("The given ID is not present");
 		}
 	}
 
